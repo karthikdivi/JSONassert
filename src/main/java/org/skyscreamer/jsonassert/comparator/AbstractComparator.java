@@ -58,8 +58,25 @@ public abstract class AbstractComparator implements JSONComparator {
             Object expectedValue = expected.get(key);
             if (actual.has(key)) {
                 Object actualValue = actual.get(key);
-                compareValues(qualify(prefix, key), expectedValue, actualValue, result);
-            } else {
+                boolean success = false;
+                if(JSONObject.NULL.equals(actualValue)){
+                	if(expectedValue instanceof JSONArray && ((JSONArray) expectedValue).length() == 0){
+                	// Empty Array vs null case
+                		success = true;
+                	}
+                	if (expectedValue instanceof JSONObject && ((JSONObject) expectedValue).length() == 0) {
+            				// Empty Object vs null case
+                		success = true;
+            			}
+                }
+                if(!success){
+                	compareValues(qualify(prefix, key), expectedValue, actualValue, result);
+                }
+            } else if (expectedValue instanceof JSONArray && ((JSONArray) expectedValue).length() == 0) {
+      				// Empty Array vs missing Key case
+      			} else if (expectedValue instanceof JSONObject && ((JSONObject) expectedValue).length() == 0) {
+      				// Empty Object vs missing Key case
+      			}else {
                 result.missing(prefix, key);
             }
         }
