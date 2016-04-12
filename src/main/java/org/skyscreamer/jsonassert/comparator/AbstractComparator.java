@@ -61,22 +61,22 @@ public abstract class AbstractComparator implements JSONComparator {
                 boolean success = false;
                 if(JSONObject.NULL.equals(actualValue)){
                 	if(expectedValue instanceof JSONArray && ((JSONArray) expectedValue).length() == 0){
-                	// Empty Array vs null case
+                		// Empty Array vs null case
                 		success = true;
                 	}
                 	if (expectedValue instanceof JSONObject && ((JSONObject) expectedValue).length() == 0) {
-            				// Empty Object vs null case
+                		// Empty Object vs null case
                 		success = true;
-            			}
+            		}
                 }
                 if(!success){
                 	compareValues(qualify(prefix, key), expectedValue, actualValue, result);
                 }
             } else if (expectedValue instanceof JSONArray && ((JSONArray) expectedValue).length() == 0) {
-      				// Empty Array vs missing Key case
-      			} else if (expectedValue instanceof JSONObject && ((JSONObject) expectedValue).length() == 0) {
-      				// Empty Object vs missing Key case
-      			}else {
+      			// Empty Array vs missing Key case
+      		} else if (expectedValue instanceof JSONObject && ((JSONObject) expectedValue).length() == 0) {
+      			// Empty Object vs missing Key case
+      		}else {
                 result.missing(prefix, key);
             }
         }
